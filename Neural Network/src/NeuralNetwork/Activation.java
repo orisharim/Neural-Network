@@ -1,3 +1,4 @@
+package NeuralNetwork;
 
 public class Activation {
     public static final ActivationFunc SIGMOID = new Sigmoid(); 

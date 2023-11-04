@@ -1,19 +1,23 @@
+package NeuralNetwork;
 
 public class Layer {
     
     private double[][] weights;
     private double[] biases;
+    private ActivationFunc activationFunc;
 
-    public Layer(int amountOfNeuronsIn, int amountOfNeuronsOut){
+    public Layer(int amountOfNeuronsIn, int amountOfNeuronsOut, ActivationFunc activationFunc){
         weights = new double[amountOfNeuronsOut][amountOfNeuronsIn];
         biases = new double[amountOfNeuronsOut];
+
+        this.activationFunc = activationFunc;
     }
 
-    public double[] getOutputs(double[] neuronsInput, ActivationFunc activationFunc){
+    public double[] getOutputs(double[] neuronsInput){
         int amountOfNeuronsIn = weights.length;
         int amountOfNeuronsOut = weights[0].length;
 
-        //check if the length of neuronsInput is correct
+        //make sure the length of neuronsInput is correct
         if(neuronsInput.length != weights[0].length)
             throw new RuntimeException("the given amount of neurons is wrong");
         
