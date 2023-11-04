@@ -14,8 +14,8 @@ public class Layer {
     }
 
     public double[] getOutputs(double[] neuronsInput){
-        int amountOfNeuronsIn = weights.length;
-        int amountOfNeuronsOut = weights[0].length;
+        int amountOfNeuronsIn = weights[0].length;
+        int amountOfNeuronsOut = weights.length;
 
         //make sure the length of neuronsInput is correct
         if(neuronsInput.length != weights[0].length)
@@ -38,6 +38,54 @@ public class Layer {
         }
 
         return outputs;
+    }
+
+    public void useGradiants(double learnRate, double[][] costWeightGradiants, double[] costBiasGradiants){
+        //make sure the length of cost bias gradients is correct
+        if(costBiasGradiants.length != biases.length)
+            throw new RuntimeException("the given amount of cost biases gradiants is wrong");
+
+        //apply cost bias gradiants
+        for(int i = 0; i < biases.length; i++){
+            biases[i] -= costBiasGradiants[i] * learnRate;
+        }
+        
+        //make sure the length of cost bias gradients is correct
+        if(weights.length != costWeightGradiants.length || weights[0].length != costWeightGradiants[0].length)
+            throw new RuntimeException("the given amount of cost weight gradiants is wrong");
+
+
+        //apply cost weight gradiants
+        for(int i = 0; i < weights.length; i++){
+            for(int j = 0; j < weights[0].length; j++){
+                weights[i][j] -= costWeightGradiants[i][j] * learnRate;
+            }
+        }
+    }
+
+    public static double nodeCost(double outputValue, double expectedOutputValue){
+        double error = outputValue - expectedOutputValue;
+        return error * error;
+    }
+
+    public static double nodeCostDerivative(double outputValue, double expectedOutputValue){
+        return (outputValue - expectedOutputValue) * 2;
+    }
+
+    public double[][] getWeights(){
+        return weights;
+    }
+
+    public double[] getBiases(){
+        return biases;
+    }
+
+    public int getAmountOfNodesIn(){
+        return weights[0].length;
+    }
+
+    public int getAmountOfNodesOut(){
+        return weights.length;
     }
 
 }
